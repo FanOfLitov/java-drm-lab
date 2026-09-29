@@ -17,20 +17,30 @@ public class Main {
         System.out.println("Fingerprint: "+deviceInfo.getDeviceFingerprint());
         System.out.println("Hashed fingerprint: " + deviceInfo.getHashedFingerprint() );
 
+
+        LicenseKeyGenerator keyGenerator = new LicenseKeyGenerator();
+
+        String generatedKey = keyGenerator.generateKey();
+
+
         License license = new License(
-                "TEST-KEY-001",
+                generatedKey,
                 deviceInfo.getHashedFingerprint(),
                 "Ivan"
         );
+        System.out.println("License owner: " + license.getOwnerName());
+        System.out.println("License key: " + license.getLicenseKey());
+        System.out.println("License device: " + license.getDeviceFingerprint());
+
+
 
         LicenseManager licenseManager = new LicenseManager();
         boolean isValid = licenseManager.isLicenseValid(license, deviceInfo);
 
         System.out.println("License valid: " + isValid);
+        System.out.println("Status: " +licenseManager.getValidationMessage(license, deviceInfo));
 
-        System.out.println("License owner: " + license.getOwnerName());
-        System.out.println("License key: " + license.getLicenseKey());
-        System.out.println("License device: " + license.getDeviceFingerprint());
+
 
 
 
