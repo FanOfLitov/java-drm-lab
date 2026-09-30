@@ -1,4 +1,5 @@
-
+import javax.swing.*;
+import java.time.LocalDate;
 
 public class Main {
 
@@ -6,45 +7,54 @@ public class Main {
 
         DeviceInfo deviceInfo = new DeviceInfo();
 
+        LicenseKeyGenerator keyGenerator =
+                new LicenseKeyGenerator();
 
-
-        System.out.println("DRM system started");
-
-        System.out.println("User: " + deviceInfo.getUserName());
-        System.out.println("OS: " +deviceInfo.getOsName());
-        System.out.println("OS version: " + deviceInfo.getOsVersion());
-        System.out.println("Architecture: " + deviceInfo.getOsArchitecture());
-        System.out.println("Fingerprint: "+deviceInfo.getDeviceFingerprint());
-        System.out.println("Hashed fingerprint: " + deviceInfo.getHashedFingerprint() );
-
-
-        LicenseKeyGenerator keyGenerator = new LicenseKeyGenerator();
-
-        String generatedKey = keyGenerator.generateKey();
-
+        String generatedKey =
+                keyGenerator.generateKey();
 
         License license = new License(
                 generatedKey,
                 deviceInfo.getHashedFingerprint(),
-                "Ivan"
+                "Ivan",
+                LocalDate.now().plusDays(30)
         );
-        System.out.println("License owner: " + license.getOwnerName());
-        System.out.println("License key: " + license.getLicenseKey());
-        System.out.println("License device: " + license.getDeviceFingerprint());
 
+        LicenseFileManager licenseFileManager =
+                new LicenseFileManager();
 
+        licenseFileManager.saveLicense(
+                license,
+                "license.txt"
+        );
 
-        LicenseManager licenseManager = new LicenseManager();
-        boolean isValid = licenseManager.isLicenseValid(license, deviceInfo);
+        License loadedLicense =
+                licenseFileManager.loadLicense(
+                        "license.txt"
+                );
 
-        System.out.println("License valid: " + isValid);
-        System.out.println("Status: " +licenseManager.getValidationMessage(license, deviceInfo));
+        LicenseManager licenseManager =
+                new LicenseManager();
 
+        ProtectedFileManager protectedFileManager =
+                new ProtectedFileManager();
 
+        protectedFileManager.createProtectedFile(
+                "protected.txt",
+                "document.drm",
+                loadedLicense
+        );
+        SwingUtilities.invokeLater(() -> {
 
+            DrmViewerGui gui =
+                    new DrmViewerGui(
+                            deviceInfo,
+                            licenseManager,
+                            protectedFileManager,
+                            loadedLicense
+                    );
 
-
-
-
+            gui.setVisible(true);
+        });
     }
 }

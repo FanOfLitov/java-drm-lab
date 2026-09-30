@@ -1,26 +1,37 @@
+import java.time.LocalDate;
+
 public class License {
 
     private String licenseKey;
     private String deviceFingerprint;
     private String ownerName;
+    private LocalDate expirationDate;
 
-    public License(String licenseKey, String deviceFingerprint, String ownerName){
-        this.licenseKey=licenseKey;
+    public License(
+            String licenseKey,
+            String deviceFingerprint,
+            String ownerName,
+            LocalDate expirationDate
+    ) {
+        this.licenseKey = licenseKey;
         this.deviceFingerprint = deviceFingerprint;
         this.ownerName = ownerName;
+        this.expirationDate = expirationDate;
     }
 
-    public String getLicenseKey(){
+    public String getLicenseKey() {
         return licenseKey;
     }
 
-    public String getDeviceFingerprint(){
+    public String getDeviceFingerprint() {
         return deviceFingerprint;
     }
 
-    public String getOwnerName(){
+    public String getOwnerName() {
         return ownerName;
     }
 
-
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
 }

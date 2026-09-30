@@ -1,0 +1,4 @@
+This is a protected document.
+
+Only a user with a valid license
+can open this file.

@@ -1,0 +1,4 @@
+owner=Ivan
+key=DRM-63415898-0E76
+device=b36257ee647243f7fc32c8422f8f4c6dd13f1ffddf1a6d1d3a362e4d9bb33e30
+expiration=2026-10-30
